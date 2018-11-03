@@ -54,7 +54,7 @@ def scraper
           chapter_parsed_page = Nokogiri::HTML(chapter_unparsed_page)
           chapter_page_content = chapter_parsed_page.css('//span.text').text.gsub(/[0-9]+(-[0-9]+)|[0-9]+/, "\n\n \\0").gsub(/[*]/, "") #grab chapter text, add new line on each verse and remove special character
         
-          chapter_page_header = chapter_parsed_page.css('//span.passage-display-bcv').text.gsub(/[0-9]+(-[0-9]+)|[0-9]+/, "\\0 ") #Grabs the Chapter Header
+          chapter_page_header = chapter_parsed_page.css('//span.passage-display-bcv').text.gsub(/[0-9]{2}(-[0-9]{2})|[1-9]{2}/, "\\0 ") #Grabs the Chapter Header
         
           chapter_content = {
             header: chapter_page_header,
@@ -65,7 +65,7 @@ def scraper
           puts "#{chapter[:title]} from link #{chapter[:link]} added to The Living Bible (Old Testament)"
           puts "**************************************"
           
-        end  
+        # end  
       #   chapter_count += 1
         
       # end   
@@ -73,7 +73,7 @@ def scraper
       # end  
     end  
     the_living_bible_pdf = Prawn::Document.new
-
+    the_living_bible_pdf.font_size(40) {the_living_bible_pdf.text "The Living Bible (Old Testament)"}
     the_living_bible.each do |the_bible|
      
       the_living_bible_pdf.font_families.update("Roboto"=>{:normal =>"fonts/Roboto/Roboto-Regular.ttf"})
@@ -85,11 +85,13 @@ def scraper
       the_living_bible_pdf.start_new_page
       
     end 
-
+    the_living_bible_pdf.move_down 100
+    the_living_bible_pdf.font_size(9) {the_living_bible_pdf.text "crawled from 'https://www.biblegateway.com' by Odogwudozilla"}
     the_living_bible_pdf.render_file "the_living_bible(OT).pdf"
+
     puts "**********The Living Bible (Old Testament) crawled and created successfully**************"
     
-    byebug
+    # byebug
   
 end 
 
