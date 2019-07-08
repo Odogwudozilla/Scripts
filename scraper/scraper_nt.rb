@@ -11,7 +11,7 @@ def scraper_nt
   url = 'https://www.biblegateway.com/versions/The-Living-Bible-TLB/#booklist'
   unparsed_page = HTTParty.get(url)
   parsed_page = Nokogiri::HTML(unparsed_page)
-  book_lists_ot = parsed_page.css('tr.nt-book') #39 Old testament Books
+  book_lists_ot = parsed_page.css('tr.nt-book') #New testament Books
 
   new_testament_list = []
   new_testament_chapters = []
